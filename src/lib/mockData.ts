@@ -1,5 +1,8 @@
 import { Auction, BidRecord } from '@/types/auction';
 
+// 固定的基準時間，避免 SSR 與 Client 產生 Hydration Mismatch
+const NOW = 1792500000000; // 穩定時間戳記
+
 export const INITIAL_AUCTIONS: Auction[] = [
   {
     id: 'auc-001',
@@ -23,9 +26,9 @@ export const INITIAL_AUCTIONS: Auction[] = [
     status: 'active',
     anti_snipe_trigger_sec: 120,
     anti_snipe_extend_sec: 120,
-    start_at: new Date(Date.now() - 3600000 * 5).toISOString(),
-    end_at: new Date(Date.now() + 1000 * 60 * 18).toISOString(), // 18 分鐘後結標
-    created_at: new Date().toISOString()
+    start_at: new Date(NOW - 3600000 * 5).toISOString(),
+    end_at: new Date(NOW + 1000 * 60 * 18).toISOString(), // 18 分鐘後
+    created_at: new Date(NOW - 3600000 * 5).toISOString()
   },
   {
     id: 'auc-002',
@@ -49,9 +52,9 @@ export const INITIAL_AUCTIONS: Auction[] = [
     status: 'active',
     anti_snipe_trigger_sec: 120,
     anti_snipe_extend_sec: 180,
-    start_at: new Date(Date.now() - 3600000 * 24).toISOString(),
-    end_at: new Date(Date.now() + 1000 * 60 * 85).toISOString(), // 85 分鐘後
-    created_at: new Date().toISOString()
+    start_at: new Date(NOW - 3600000 * 24).toISOString(),
+    end_at: new Date(NOW + 1000 * 60 * 85).toISOString(),
+    created_at: new Date(NOW - 3600000 * 24).toISOString()
   },
   {
     id: 'auc-003',
@@ -74,9 +77,9 @@ export const INITIAL_AUCTIONS: Auction[] = [
     status: 'active',
     anti_snipe_trigger_sec: 120,
     anti_snipe_extend_sec: 120,
-    start_at: new Date(Date.now() - 3600000 * 8).toISOString(),
-    end_at: new Date(Date.now() + 1000 * 150).toISOString(), // 快要結標 (2.5分鐘) - 適合展示防壓秒！
-    created_at: new Date().toISOString()
+    start_at: new Date(NOW - 3600000 * 8).toISOString(),
+    end_at: new Date(NOW + 1000 * 150).toISOString(),
+    created_at: new Date(NOW - 3600000 * 8).toISOString()
   }
 ];
 
@@ -87,27 +90,27 @@ export const INITIAL_BIDS: Record<string, BidRecord[]> = {
       auction_id: 'auc-001',
       bidder_id: 'user-01',
       bidder_name: '新竹工程師 Ken',
-      bidder_avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ken',
+      bidder_avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80',
       amount: 32500,
-      created_at: new Date(Date.now() - 1000 * 60 * 12).toISOString()
+      created_at: new Date(NOW - 1000 * 60 * 12).toISOString()
     },
     {
       id: 'bid-2',
       auction_id: 'auc-001',
       bidder_id: 'user-05',
       bidder_name: '板橋張教練',
-      bidder_avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Coach',
+      bidder_avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80',
       amount: 33000,
-      created_at: new Date(Date.now() - 1000 * 60 * 6).toISOString()
+      created_at: new Date(NOW - 1000 * 60 * 6).toISOString()
     },
     {
       id: 'bid-3',
       auction_id: 'auc-001',
       bidder_id: 'user-02',
       bidder_name: '台北林先生',
-      bidder_avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MrLin',
+      bidder_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       amount: 33500,
-      created_at: new Date(Date.now() - 1000 * 60 * 2).toISOString()
+      created_at: new Date(NOW - 1000 * 60 * 2).toISOString()
     }
   ]
 };

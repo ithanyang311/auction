@@ -15,8 +15,7 @@ import {
   User,
   Zap,
   TrendingUp,
-  Share2,
-  CheckCircle2
+  Share2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -39,8 +38,15 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
   const [isDepositAuthorized, setIsDepositAuthorized] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
     const updateCountdown = () => {
       const now = new Date().getTime();
       const end = new Date(auction.end_at).getTime();
@@ -56,7 +62,7 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
     updateCountdown();
     const timer = setInterval(updateCountdown, 1000);
     return () => clearInterval(timer);
-  }, [auction.end_at]);
+  }, [auction.end_at, isMounted]);
 
   useEffect(() => {
     setCustomBidAmount(auction.current_price + auction.min_increment);
@@ -274,8 +280,10 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
                   }`}
                 >
                   {isUrgent && <Flame className="w-3.5 h-3.5 text-amber-300" />}
-                  <span>
-                    {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+                  <span suppressHydrationWarning>
+                    {isMounted
+                      ? `${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`
+                      : '計算中...'}
                   </span>
                 </div>
               </div>
@@ -419,8 +427,14 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
                             </span>
                           )}
                         </div>
-                        <div className="text-[10px] text-slate-400 mt-0.5">
-                          {new Date(bid.created_at).toLocaleTimeString('zh-TW')}
+                        {/* Time with suppressHydrationWarning to prevent SSR/Client difference */}
+                        <div
+                          suppressHydrationWarning
+                          className="text-[10px] text-slate-400 mt-0.5"
+                        >
+                          {isMounted
+                            ? new Date(bid.created_at).toLocaleTimeString('zh-TW')
+                            : '剛剛'}
                         </div>
                       </div>
                     </div>

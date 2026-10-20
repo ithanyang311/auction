@@ -11,8 +11,10 @@ interface AuctionCardProps {
 
 export default function AuctionCard({ auction }: AuctionCardProps) {
   const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0, isUrgent: false });
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const updateTime = () => {
       const now = new Date().getTime();
       const end = new Date(auction.end_at).getTime();
@@ -68,8 +70,10 @@ export default function AuctionCard({ auction }: AuctionCardProps) {
             ) : (
               <Clock className="w-3.5 h-3.5 text-[#D4F652]" />
             )}
-            <span>
-              剩餘 {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+            <span suppressHydrationWarning>
+              {isMounted
+                ? `剩餘 ${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`
+                : '計算中...'}
             </span>
             {timeLeft.isUrgent && <span className="text-[10px] ml-1">防壓秒生效</span>}
           </div>
