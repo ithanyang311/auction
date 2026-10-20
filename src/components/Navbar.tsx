@@ -1,57 +1,60 @@
 'use client';
 
 import Link from 'next/link';
-import { Gavel, ShieldCheck, Zap, CreditCard, Bell } from 'lucide-react';
+import { Gavel, ShieldCheck, Zap, ArrowUpRight, Sparkles } from 'lucide-react';
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div className="w-full px-4 sm:px-6 lg:px-8 pt-4 pb-2 z-50">
+      <header className="max-w-7xl mx-auto backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-5 py-3 flex items-center justify-between text-white shadow-lg shadow-sky-950/10">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
-            <Gavel className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-full bg-white text-[#0082FB] flex items-center justify-center font-black shadow-md group-hover:scale-105 transition-transform">
+            <Gavel className="w-5 h-5 stroke-[2.5]" />
           </div>
-          <div>
-            <div className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent flex items-center gap-1.5">
-              BidPulse 競價
-              <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                LIVE
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400 leading-none">次世代即時防棄標拍賣</p>
-          </div>
+          <span className="font-extrabold text-xl tracking-tight text-white flex items-center gap-1.5">
+            BidPulse
+            <span className="w-2 h-2 rounded-full bg-[#D4F652] animate-pulse"></span>
+          </span>
         </Link>
 
-        {/* Feature Highlights */}
-        <div className="hidden md:flex items-center gap-6 text-xs text-slate-300">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>履約保證金機制（零棄標）</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800">
-            <Zap className="w-4 h-4 text-amber-400" />
-            <span>防壓秒自動延時 +120s</span>
-          </div>
-        </div>
+        {/* Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-white/90">
+          <Link href="/" className="hover:text-white transition-colors">
+            首頁
+          </Link>
+          <Link href="#auctions" className="hover:text-white transition-colors flex items-center gap-1">
+            即時拍賣專場
+            <span className="text-[10px] bg-[#D4F652] text-slate-950 px-1.5 py-0.2 rounded-full font-bold">
+              HOT
+            </span>
+          </Link>
+          <Link href="#guarantee" className="hover:text-white transition-colors">
+            防棄標履約機制
+          </Link>
+          <Link href="#features" className="hover:text-white transition-colors">
+            防壓秒技術
+          </Link>
+        </nav>
 
-        {/* User Info / Card Status */}
+        {/* Right Action */}
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
-            <CreditCard className="w-3.5 h-3.5" />
-            <span>已綁卡 (授權額度正常)</span>
-          </div>
-          <button className="relative p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition-colors">
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500"></span>
-          </button>
-          <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-xs text-white shadow-inner">
-              Jimmy
-            </div>
-          </div>
+          <Link
+            href="#auctions"
+            className="hidden sm:flex items-center gap-1 text-xs font-semibold px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors backdrop-blur-sm"
+          >
+            <span>瀏覽拍賣</span>
+          </Link>
+
+          <Link
+            href="#auctions"
+            className="flex items-center gap-1.5 text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-full bg-[#D4F652] hover:bg-[#c4e83f] text-slate-950 shadow-md shadow-lime-950/10 hover:scale-105 active:scale-95 transition-all"
+          >
+            <span>立即出價</span>
+            <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+          </Link>
         </div>
-      </div>
-    </header>
+      </header>
+    </div>
   );
 }

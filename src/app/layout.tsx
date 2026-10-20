@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'BidPulse 次世代即時競價平台 | 零棄標與毫秒級同步',
-  description: '解決台灣傳統拍賣網站老舊 UI/UX 與得標惡意棄標不付錢痛點。搭載信用卡預授權保證金與 Supabase 毫秒級即時跳價。',
+  title: 'BidPulse - Building the future of live auctions',
+  description: '次世代即時競價拍賣平台。首創信用卡預授權保證金，毫秒級跳價，防壓秒自動延時，徹底終結棄標放鳥。',
 };
 
 export default function RootLayout({
@@ -25,9 +25,11 @@ export default function RootLayout({
   return (
     <html
       lang="zh-TW"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-950 text-slate-100">{children}</body>
+      <body className="min-h-full flex flex-col bg-white text-slate-900 selection:bg-[#D4F652] selection:text-slate-950 font-sans">
+        {children}
+      </body>
     </html>
   );
 }

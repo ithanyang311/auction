@@ -15,7 +15,8 @@ import {
   User,
   Zap,
   TrendingUp,
-  Share2
+  Share2,
+  CheckCircle2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -122,7 +123,7 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
       auction_id: auction.id,
       bidder_id: 'user-current-you',
       bidder_name: '您 (Jimmy)',
-      bidder_avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jimmy',
+      bidder_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
       amount: amount,
       created_at: new Date().toISOString(),
     };
@@ -139,10 +140,10 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
     triggerPriceUpdateEffect();
 
     confetti({
-      particleCount: 80,
-      spread: 60,
+      particleCount: 90,
+      spread: 70,
       origin: { y: 0.8 },
-      colors: ['#10b981', '#f59e0b', '#f43f5e'],
+      colors: ['#0082FB', '#D4F652', '#0f172a'],
     });
 
     setFeedbackMessage(
@@ -156,50 +157,54 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
   const isUrgent = timeLeft.totalSec <= 120 && timeLeft.totalSec > 0;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-20">
-      {/* Top Banner Navigation */}
-      <div className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+    <div className="min-h-screen bg-[#F9FAFB] text-slate-900 pb-20 antialiased">
+      {/* Top Floating Glass Navigation */}
+      <div className="bg-[#0082FB] text-white py-3 px-4 sm:px-6 lg:px-8 sticky top-0 z-40 shadow-md">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white/90 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>返回拍賣大廳</span>
           </Link>
 
           <div className="flex items-center gap-2">
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-rose-500/10 text-rose-400 border border-rose-500/20 font-semibold animate-pulse">
-              <span className="w-2 h-2 rounded-full bg-rose-500"></span>
-              即時競標大廳
+            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-white text-slate-900 font-extrabold shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#0082FB] animate-pulse"></span>
+              即時競標進行中
             </span>
-            <button className="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800">
+            <button className="p-1.5 rounded-full text-white/80 hover:text-white bg-white/10 hover:bg-white/20 transition-colors">
               <Share2 className="w-4 h-4" />
             </button>
           </div>
         </div>
       </div>
 
+      {/* Anti-Snipe Trigger Banner */}
       {isExtendedAlert && (
-        <div className="bg-gradient-to-r from-amber-600 to-rose-600 text-white px-4 py-2 text-center text-xs sm:text-sm font-bold flex items-center justify-center gap-2 animate-bounce">
-          <Zap className="w-4 h-4" />
-          <span>⚡ 防壓秒延長機制已觸發！為杜絕最後一秒機器人搶標，結標倒數自動延長 120 秒！</span>
+        <div className="bg-[#D4F652] text-slate-950 px-4 py-2.5 text-center text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-md animate-bounce">
+          <Zap className="w-4 h-4 stroke-[2.5]" />
+          <span>⚡ 防壓秒延長機制已觸發！為杜絕機器人最後一秒搶標，結標倒數自動延長 120 秒！</span>
         </div>
       )}
 
+      {/* Feedback Toast */}
       {feedbackMessage && (
-        <div className="fixed bottom-6 right-6 z-50 max-w-md p-4 rounded-xl bg-slate-900 border border-emerald-500/40 text-emerald-300 text-xs sm:text-sm shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-4">
-          <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
-          <span>{feedbackMessage}</span>
+        <div className="fixed bottom-6 right-6 z-50 max-w-md p-4 rounded-2xl bg-slate-900 text-white text-xs sm:text-sm shadow-2xl flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-4">
+          <div className="w-6 h-6 rounded-full bg-[#D4F652] text-slate-950 flex items-center justify-center font-bold shrink-0">
+            ✓
+          </div>
+          <span className="font-medium">{feedbackMessage}</span>
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: Product Showcase */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
-              <div className="aspect-[16/10] relative overflow-hidden bg-slate-950">
+            <div className="rounded-[32px] overflow-hidden bg-white border border-slate-200/80 shadow-xl shadow-slate-200/50">
+              <div className="aspect-[16/10] relative overflow-hidden bg-slate-100">
                 <img
                   src={auction.images[0]}
                   alt={auction.title}
@@ -208,203 +213,219 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
+            {/* Description Card */}
+            <div className="p-8 rounded-[32px] bg-white border border-slate-200/80 shadow-xl shadow-slate-200/50">
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 text-[#0082FB]">
+                  {auction.category}
+                </span>
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#D4F652] text-slate-950 flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5" /> 需圈存 NT$ {auction.deposit_required.toLocaleString()}
+                </span>
+              </div>
+
+              <h1 className="text-xl sm:text-3xl font-black text-slate-900 mt-4 leading-snug">
                 {auction.title}
               </h1>
-              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+
+              <p className="mt-4 text-sm text-slate-600 leading-relaxed font-normal">
                 {auction.description}
               </p>
 
-              <div className="mt-6 pt-6 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-amber-400 font-bold">
-                    賣
+              {/* Seller Trust Box */}
+              <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-2xl bg-[#F9FAFB] border border-slate-200 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#0082FB] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                    優
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-200">{auction.seller_name}</div>
-                    <div className="text-slate-400">履約評分 ★ {auction.seller_rating} / 5.0</div>
+                    <div className="font-bold text-slate-900 text-sm">{auction.seller_name}</div>
+                    <div className="text-slate-500 font-medium">履約好評 ★ {auction.seller_rating} / 5.0</div>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-emerald-500/20 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="font-semibold text-emerald-300">第三方信託履約保證</div>
-                    <div className="text-slate-400">買家驗貨無誤後才撥款給賣家</div>
+                    <div className="font-bold text-emerald-900 text-sm">買賣雙方履約信託</div>
+                    <div className="text-emerald-700 font-medium">得標棄標即扣保證金補償賣家</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Live Realtime Bidding Console */}
+          {/* Right Column: Bidding Console */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
-
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-                <span className="text-xs text-slate-400 font-medium flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-amber-400" />
-                  結標倒數計時
+            <div className="p-8 rounded-[32px] bg-white border border-slate-200/80 shadow-2xl shadow-sky-500/5 relative overflow-hidden">
+              {/* Countdown Bar */}
+              <div className="flex items-center justify-between pb-5 border-b border-slate-100">
+                <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5 uppercase tracking-wider">
+                  <Clock className="w-4 h-4 text-[#0082FB]" />
+                  距離結標時間
                 </span>
                 <div
-                  className={`px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 ${
                     isUrgent
-                      ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse'
-                      : 'bg-slate-800 text-slate-200'
+                      ? 'bg-rose-500 text-white animate-pulse'
+                      : 'bg-slate-900 text-white'
                   }`}
                 >
-                  {isUrgent && <Flame className="w-3.5 h-3.5 text-rose-400" />}
+                  {isUrgent && <Flame className="w-3.5 h-3.5 text-amber-300" />}
                   <span>
                     {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
                   </span>
                 </div>
               </div>
 
-              <div className="mt-5">
-                <div className="text-xs text-slate-400 flex items-center justify-between">
-                  <span>當前最高出價 (Current Highest Bid)</span>
-                  <span className="text-emerald-400 text-[11px] flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5" /> 毫秒級即時同步
+              {/* Price Ticker */}
+              <div className="mt-6">
+                <div className="text-xs text-slate-400 font-semibold flex items-center justify-between uppercase tracking-wider">
+                  <span>當前最高出價</span>
+                  <span className="text-[#0082FB] font-bold text-xs flex items-center gap-1">
+                    <TrendingUp className="w-3.5 h-3.5" /> 毫秒級跳價
                   </span>
                 </div>
 
                 <div
-                  className={`mt-1 text-4xl sm:text-5xl font-black font-mono tracking-tight transition-transform duration-300 ${
-                    pricePulse
-                      ? 'scale-105 text-emerald-400'
-                      : 'text-amber-400'
+                  className={`mt-1 text-4xl sm:text-5xl font-black font-mono tracking-tight text-slate-900 transition-transform duration-300 ${
+                    pricePulse ? 'scale-105 text-[#0082FB]' : ''
                   }`}
                 >
                   NT$ {auction.current_price.toLocaleString()}
                 </div>
 
-                <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-                  <span>最高標得主：</span>
-                  <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-200 font-medium flex items-center gap-1">
-                    <User className="w-3 h-3 text-slate-400" />
+                <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
+                  <span>當前領先者：</span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 font-bold flex items-center gap-1">
+                    <User className="w-3 h-3 text-slate-500" />
                     {auction.current_winner_name || '尚無出價'}
                   </span>
                 </div>
               </div>
 
-              {/* Deposit Guarantee Status Box */}
-              <div className="mt-6 p-4 rounded-2xl bg-slate-950 border border-slate-800">
+              {/* Deposit Guarantee Box */}
+              <div className="mt-6 p-5 rounded-2xl bg-[#F9FAFB] border border-slate-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-xs">
                     <ShieldCheck
                       className={`w-4 h-4 ${
-                        isDepositAuthorized ? 'text-emerald-400' : 'text-amber-400'
+                        isDepositAuthorized ? 'text-emerald-500' : 'text-[#0082FB]'
                       }`}
                     />
-                    <span className="font-semibold text-slate-200">
+                    <span className="font-bold text-slate-900">
                       防惡意棄標保證金
                     </span>
                   </div>
                   <span
-                    className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                    className={`text-[11px] px-2.5 py-0.5 rounded-full font-bold ${
                       isDepositAuthorized
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                        ? 'bg-emerald-100 text-emerald-700'
+                        : 'bg-[#D4F652] text-slate-950'
                     }`}
                   >
-                    {isDepositAuthorized ? '已預授權 NT$ 500' : '出價前需圈存'}
+                    {isDepositAuthorized ? '已完成預授權' : '出價前需圈存'}
                   </span>
                 </div>
-                <p className="mt-2 text-[11px] text-slate-400 leading-normal">
-                  出價前圈存 NT$ {auction.deposit_required.toLocaleString()}，未得標自動解除圈存。得標者若逾期未付款，沒收保證金補償賣家。
+
+                <p className="mt-2 text-xs text-slate-500 leading-relaxed font-medium">
+                  圈存 NT$ {auction.deposit_required.toLocaleString()}，未得標自動解圈。得標 24 小時未付款則沒收 80% 補償受害賣家。
                 </p>
+
                 {!isDepositAuthorized && (
                   <button
                     onClick={() => setShowDepositModal(true)}
-                    className="mt-3 w-full py-2 px-3 rounded-xl text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 transition-colors"
+                    className="mt-3 w-full py-2.5 px-4 rounded-xl text-xs font-extrabold bg-[#0082FB] hover:bg-[#0070df] text-white transition-all shadow-md shadow-sky-500/20 active:scale-95"
                   >
-                    立即完成保證金預授權 (開通出價)
+                    立即預授權開通出價權限
                   </button>
                 )}
               </div>
 
-              {/* Bidding Action Center */}
+              {/* Quick Bid Ladders */}
               <div className="mt-6 space-y-3">
-                <div className="text-xs text-slate-400">快捷加價梯隊 (最低加價 +NT$ {auction.min_increment})</div>
+                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  一鍵快速加價 (每次最低 +NT$ {auction.min_increment})
+                </div>
+
                 <div className="grid grid-cols-3 gap-2">
                   {[auction.min_increment, auction.min_increment * 5, auction.min_increment * 10].map((inc) => (
                     <button
                       key={inc}
                       onClick={() => handlePlaceBid(auction.current_price + inc)}
-                      className="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all text-xs font-mono font-bold text-slate-200 border border-slate-700 flex flex-col items-center"
+                      className="py-3 px-2 rounded-2xl bg-slate-100 hover:bg-[#D4F652] hover:text-slate-950 text-slate-900 active:scale-95 transition-all text-xs font-mono font-black border border-slate-200/80 flex flex-col items-center shadow-sm"
                     >
                       <span>+NT$ {inc.toLocaleString()}</span>
                     </button>
                   ))}
                 </div>
 
+                {/* Custom Bid Input */}
                 <div className="pt-2 flex gap-2">
                   <div className="relative flex-1">
-                    <span className="absolute left-3 top-2.5 text-xs text-slate-500 font-mono">NT$</span>
+                    <span className="absolute left-3.5 top-3 text-xs font-mono font-bold text-slate-400">NT$</span>
                     <input
                       type="number"
                       step={auction.min_increment}
                       value={customBidAmount}
                       onChange={(e) => setCustomBidAmount(Number(e.target.value))}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 pl-10 pr-3 text-sm font-mono text-white focus:outline-none focus:border-amber-500 transition-colors"
+                      className="w-full bg-[#F9FAFB] border border-slate-200 rounded-2xl py-3 pl-11 pr-3 text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-[#0082FB] transition-colors"
                     />
                   </div>
                   <button
                     onClick={() => handlePlaceBid(customBidAmount)}
-                    className="py-2.5 px-6 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-slate-950 shadow-lg shadow-rose-500/20 active:scale-95 transition-all flex items-center gap-1.5"
+                    className="py-3 px-6 rounded-2xl font-black text-xs sm:text-sm bg-[#D4F652] hover:bg-[#c4e83f] text-slate-950 shadow-md shadow-lime-500/20 active:scale-95 transition-all flex items-center gap-1.5 shrink-0"
                   >
                     <Gavel className="w-4 h-4 stroke-[2.5]" />
-                    <span>立即出價</span>
+                    <span>確認出價</span>
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Live Bid History */}
-            <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                <span className="text-xs font-bold text-slate-200">
+            <div className="p-8 rounded-[32px] bg-white border border-slate-200/80 shadow-xl shadow-slate-200/50">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider">
                   出價歷史紀錄 ({bids.length} 筆)
                 </span>
-                <span className="text-[11px] text-slate-500">最新出價在最上方</span>
+                <span className="text-[11px] text-slate-400 font-medium">毫秒即時更新</span>
               </div>
 
-              <div className="mt-3 space-y-2 max-h-60 overflow-y-auto pr-1">
+              <div className="mt-4 space-y-2.5 max-h-60 overflow-y-auto pr-1">
                 {bids.map((bid, index) => (
                   <div
                     key={bid.id}
-                    className={`p-3 rounded-xl flex items-center justify-between text-xs transition-colors ${
+                    className={`p-3.5 rounded-2xl flex items-center justify-between text-xs transition-colors ${
                       index === 0
-                        ? 'bg-amber-500/10 border border-amber-500/20 text-slate-100'
-                        : 'bg-slate-950/60 border border-slate-800/60 text-slate-400'
+                        ? 'bg-sky-50 border border-sky-100 text-slate-900'
+                        : 'bg-[#F9FAFB] border border-slate-100 text-slate-600'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-3">
                       <img
-                        src={bid.bidder_avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=user'}
+                        src={bid.bidder_avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
                         alt={bid.bidder_name}
-                        className="w-7 h-7 rounded-full bg-slate-800"
+                        className="w-8 h-8 rounded-full object-cover ring-2 ring-white shadow-sm"
                       />
                       <div>
-                        <div className="font-semibold text-slate-200 flex items-center gap-1">
+                        <div className="font-bold text-slate-900 flex items-center gap-1.5">
                           {bid.bidder_name}
                           {index === 0 && (
-                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500 text-slate-950 font-bold">
-                              領先
+                            <span className="text-[10px] px-2 py-0.2 rounded-full bg-[#D4F652] text-slate-950 font-black">
+                              最高標
                             </span>
                           )}
                         </div>
-                        <div className="text-[10px] text-slate-500">
+                        <div className="text-[10px] text-slate-400 mt-0.5">
                           {new Date(bid.created_at).toLocaleTimeString('zh-TW')}
                         </div>
                       </div>
                     </div>
 
-                    <div className="font-mono font-bold text-sm text-amber-400">
+                    <div className="font-mono font-black text-sm text-[#0082FB]">
                       NT$ {bid.amount.toLocaleString()}
                     </div>
                   </div>
@@ -415,6 +436,7 @@ export default function AuctionRoom({ auctionId }: AuctionRoomProps) {
         </div>
       </main>
 
+      {/* Deposit Modal */}
       <DepositModal
         isOpen={showDepositModal}
         depositAmount={auction.deposit_required}
